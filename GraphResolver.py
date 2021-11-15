@@ -5,7 +5,7 @@ from Cell import Cell
 from Node import Node
 
 
-class GraphFromMatrix:
+class GraphResolver:
     def __init__(self, matrix: ndarray):
         self.node_matrix = matrix
         self.graph = Graph()
@@ -31,8 +31,7 @@ class GraphFromMatrix:
 
     def add_vertice(self, root: Node, neighbor: Node) -> None:  #  nao adiciona paredes nas conexoes dos grafos
         if is_not_wall(neighbor):
-            if not (root.cell_type == Cell.SHELF and neighbor.cell_type == Cell.SHELF) and not neighbor.robot_number:
-                self.graph.add_edge(root, neighbor)
+            self.graph.add_edge(root, neighbor)
 
     def is_out_of_bounds(self, cord: tuple[int, int]):  #  metodo para garantir que só adicionaremos vertices no grafo que realmente existem dentro da matriz
         rows = self.node_matrix.shape[0]
@@ -41,8 +40,6 @@ class GraphFromMatrix:
 
 
 def get_matrix_data(file_location: str) -> ndarray:  #  pega os dados de um arquivo csv e os transforma em uma matriz de Cell
-    Node.initial_position_counter = 0
-
     str_matrix = np.genfromtxt(file_location, delimiter=',', dtype=str)
 
     matrix = ndarray(shape=str_matrix.shape, dtype=Node)
@@ -52,7 +49,7 @@ def get_matrix_data(file_location: str) -> ndarray:  #  pega os dados de um arqu
     return matrix
 
 
-def transform_in_cell(cell: str) -> Cell:  #  transforma a representacao de string para um enum
+def transform_in_cell(cell: str) -> Cell:  #  transforma a representacao de string para um enum de Cell
     if cell.isnumeric():
         return Cell.SHELF
     if "R" in cell:

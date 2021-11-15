@@ -8,13 +8,10 @@ class Node:   #  clase que representa cada nodo do grafo
         self.cell_type = cell_type
         self.x = x
         self.y = y
-        self.robot_number = None
+        self.number = None   #  para poder diferenciar os robos
         if cell_type is Cell.INITIAL_POS:
             Node.initial_position_counter += 1
-            self.robot_number = Node.initial_position_counter
+            self.number = Node.initial_position_counter
 
-    def __str__(self) -> str:
-        return f"{self.cell_type} {'' if not self.robot_number else self.robot_number} ({self.x}, {self.y})"
-
-    def serialize(self):
-        return {"x": self.x, "y": self.y, "cell_type": self.cell_type.value, "robot_number:": self.robot_number}
+    def __str__(self):
+        return f"{self.cell_type} {'' if not self.number else self.number} ({self.x}, {self.y})"
